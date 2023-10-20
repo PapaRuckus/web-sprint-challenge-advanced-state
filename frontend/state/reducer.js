@@ -12,7 +12,14 @@ import {
 
 const initialWheelState = 0;
 function wheel(state = initialWheelState, action) {
-  return state;
+  switch (action.type) {
+    case MOVE_CLOCKWISE: 
+      return state + 1
+    case MOVE_COUNTERCLOCKWISE:
+      return state - 1
+    default:
+    return state;
+  }
 }
 
 const initialQuizState = {

@@ -49,13 +49,11 @@ export function setQuizSuccess(quizData) {
 // - Dispatch an action to send the obtained quiz to its state
 export function fetchQuiz() {
   return function (dispatch) {
-    // console.log("Before dispatch(setQuiz())");
     dispatch(setQuiz());
     axios
       .get(`http://localhost:9000/api/quiz/next`)
       .then((response) => {
-        // const question = response.data;
-        // console.log("this is response.data", question);
+        
         dispatch(setQuizSuccess(response.data)); 
       })
       .catch((error) => {
