@@ -18,3 +18,11 @@ export default function Wheel(props) {
     </div>
   )
 }
+
+// const mapStateToprops = state => {
+//   return (
+//    
+//   )
+// }
+
+
