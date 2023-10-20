@@ -26,7 +26,6 @@ export function setMessage() {
   return { type: SET_INFO_MESSAGE };
 }
 
-
 export function inputChange() {
   return { type: INPUT_CHANGE };
 }
@@ -36,32 +35,36 @@ export function resetForm() {
 }
 
 export function setQuiz() {
-  return { type: SET_QUIZ_INTO_STATE };
+  return { type: SET_QUIZ_INTO_STATE, payload: null };
 }
 
-export function setQuizSuccess(question) {
-  return { type: SET_QUIZ_INTO_STATE, payload: question };
+export function setQuizSuccess(quizData) {
+  return { type: SET_QUIZ_INTO_STATE, payload: quizData };
 }
+
 
 // ❗ Async action creators
+// First, dispatch an action to reset the quiz state (so the "Loading next quiz..." message can display)
+// On successful GET:
+// - Dispatch an action to send the obtained quiz to its state
 export function fetchQuiz() {
   return function (dispatch) {
-    console.log("Before dispatch(setQuiz())");
-    dispatch(setQuiz())
-    axios.get(`http://localhost:9000/api/quiz/next`)
-      .then(response => {
-        const question = response.data
-        console.log(question)
-      dispatch(setQuizSuccess(question));
+    // console.log("Before dispatch(setQuiz())");
+    dispatch(setQuiz());
+    axios
+      .get(`http://localhost:9000/api/quiz/next`)
+      .then((response) => {
+        // const question = response.data;
+        // console.log("this is response.data", question);
+        dispatch(setQuizSuccess(response.data)); 
       })
-      .catch(error => {
-      console.log(error)
-    })
-    // First, dispatch an action to reset the quiz state (so the "Loading next quiz..." message can display)
-    // On successful GET:
-    // - Dispatch an action to send the obtained quiz to its state
+      .catch((error) => {
+        console.log(error);
+      });
   };
 }
+
+
 export function postAnswer() {
   return function (dispatch) {
     // On successful POST:
@@ -70,6 +73,7 @@ export function postAnswer() {
     // - Dispatch the fetching of the next quiz
   };
 }
+
 export function postQuiz() {
   return function (dispatch) {
     // On successful POST:
