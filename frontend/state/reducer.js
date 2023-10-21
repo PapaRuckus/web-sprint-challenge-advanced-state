@@ -10,17 +10,24 @@ import {
   RESET_FORM,
 } from "./action-types";
 
-const initialWheelState = 0;
+const initialWheelState = {
+  activeCogIndex: 0,
+};
 function wheel(state = initialWheelState, action) {
   switch (action.type) {
-    case MOVE_CLOCKWISE: 
-      return state + 1
+    case MOVE_CLOCKWISE:
+      return {
+        activeCogIndex: (state.activeCogIndex + 1) % 6,
+      };
     case MOVE_COUNTERCLOCKWISE:
-      return state - 1
+      return {
+        activeCogIndex: (state.activeCogIndex - 1 + 6) % 6, 
+      };
     default:
-    return state;
+      return state;
   }
 }
+
 
 const initialQuizState = {
   quizData: null,
@@ -36,7 +43,12 @@ function quiz(state = initialQuizState, action) {
 
 const initialSelectedAnswerState = null;
 function selectedAnswer(state = initialSelectedAnswerState, action) {
-  return state;
+  switch (action.type) {
+    case SET_SELECTED_ANSWER:
+      return action.payload
+    default:
+      return state;
+  }
 }
 
 const initialMessageState = "";
