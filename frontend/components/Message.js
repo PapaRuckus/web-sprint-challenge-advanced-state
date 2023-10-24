@@ -1,11 +1,19 @@
 import React from 'react'
+import { connect } from 'react-redux'
 
-export default function Message(props) {
-  return <div id="message">"Fix this"</div>
+
+function Message(props) {
+  return <div id="message">
+    {props.infoMessage}
+  </div>
 }
 
+const mapStateToProps = (state) => ({
+  infoMessage: state.infoMessage,
+});
+
+export default connect(mapStateToProps, {})(Message);
+
 // ---{messages needed to display}---
-// Nice job! That was the correct answer
-// What a shame! That was the incorrect answer
 // Congrats: "how do you return the sum of two unmbers" is a great question!
 // "how do you return the sum of two unmbers" is the question I asked

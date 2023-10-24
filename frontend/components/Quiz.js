@@ -1,15 +1,27 @@
 import React, { useEffect } from "react";
 import { connect } from "react-redux";
-import { fetchQuiz, selectAnswer } from "../state/action-creators";
+import { fetchQuiz, selectAnswer, postAnswer } from "../state/action-creators";
 
 function Quiz(props) {
-  const { fetchQuiz, quizData, selectedAnswer, selectAnswer } = props;
+  const { fetchQuiz, quizData, selectedAnswer, selectAnswer, postAnswer } = props;
 
   useEffect(() => {
-    fetchQuiz();
+    if (!quizData) {
+      fetchQuiz()
+    }
   }, []);
 
+  function handleAnswerClick(id) {
+    selectAnswer(id);
+  }
+
+  
   function handleSubmitAnswer() {
+    let quiz_id = quizData.quiz_id
+    let answer_id = selectedAnswer
+    selectAnswer(null)
+    postAnswer(quiz_id, answer_id)
+    fetchQuiz()
   }
 
   return (
@@ -19,25 +31,24 @@ function Quiz(props) {
           <h2>{quizData.question}</h2>
 
           <div id="quizAnswers">
-            <div className="answer selected">
-              {quizData.answers[0].text}
-              <button
-                onClick={() => selectAnswer(quizData.answers[0])}
-                disabled={selectedAnswer !== null}
+            {quizData.answers.map((answer, idx) => (
+              <div
+                className={`answer ${
+                  answer.answer_id === selectedAnswer ? "selected" : ""
+                }`}
+                key={idx}
               >
-                Select
-              </button>
-            </div>
-
-            <div className="answer">
-              {quizData.answers[1].text}
-              <button
-                onClick={() => selectAnswer(quizData.answers[1])}
-                disabled={selectedAnswer !== null}
-              >
-                Select
-              </button>
-            </div>
+                {answer.text}
+                <button
+                  onClick={() => handleAnswerClick(answer.answer_id)}
+                  className={
+                    answer.answer_id === selectedAnswer ? "selected" : ""
+                  }
+                >
+                  {answer.answer_id === selectedAnswer ? "SELECTED" : "Select"}
+                </button>
+              </div>
+            ))}
           </div>
 
           <button
@@ -60,4 +71,4 @@ const mapStateToProps = (state) => ({
   selectedAnswer: state.selectedAnswer,
 });
 
-export default connect(mapStateToProps, { fetchQuiz, selectAnswer })(Quiz);
+export default connect(mapStateToProps, { fetchQuiz, selectAnswer, postAnswer })(Quiz);
