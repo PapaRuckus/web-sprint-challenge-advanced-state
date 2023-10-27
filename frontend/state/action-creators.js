@@ -99,9 +99,5 @@ export function postQuiz(question_text, true_answer_text, false_answer_text) {
       .catch((error) => {
         console.log(error.message);
       });
-    // On successful POST:
-    // - Dispatch the correct message to the the appropriate state
-    // - Dispatch the resetting of the form
   };
 }
-// ❗ On promise rejections, use log statements or breakpoints, and put an appropriate error message in state
