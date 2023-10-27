@@ -21,13 +21,12 @@ function wheel(state = initialWheelState, action) {
       };
     case MOVE_COUNTERCLOCKWISE:
       return {
-        activeCogIndex: (state.activeCogIndex - 1 + 6) % 6, 
+        activeCogIndex: (state.activeCogIndex - 1 + 6) % 6,
       };
     default:
       return state;
   }
 }
-
 
 const initialQuizState = {
   quizData: null,
@@ -45,19 +44,19 @@ const initialSelectedAnswerState = null;
 function selectedAnswer(state = initialSelectedAnswerState, action) {
   switch (action.type) {
     case SET_SELECTED_ANSWER:
-      return action.payload
+      return action.payload;
     default:
       return state;
   }
 }
 
-const initialMessageState = null
+const initialMessageState = null;
 function infoMessage(state = initialMessageState, action) {
   switch (action.type) {
     case SET_INFO_MESSAGE:
-      return action.payload
+      return action.payload;
     default:
-      return state
+      return state;
   }
 }
 
@@ -68,7 +67,22 @@ const initialFormState = {
 };
 
 function form(state = initialFormState, action) {
-  return state;
+  switch (action.type) {
+    case INPUT_CHANGE:
+      return {
+        ...state,
+        [action.payload.inputId]: action.payload.value,
+      };
+    case RESET_FORM:
+      return initialFormState;
+    case SET_INFO_MESSAGE:
+      return {
+        ...state,
+        infoMessage: action.payload,
+      };
+    default:
+      return state;
+  }
 }
 
 export default combineReducers({

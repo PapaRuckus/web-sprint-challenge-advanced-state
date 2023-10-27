@@ -26,8 +26,8 @@ export function setMessage(message) {
   return { type: SET_INFO_MESSAGE, payload: message };
 }
 
-export function inputChange() {
-  return { type: INPUT_CHANGE };
+export function inputChange(field) {
+  return { type: INPUT_CHANGE, payload: field };
 }
 
 export function resetForm() {
@@ -80,8 +80,25 @@ export function postAnswer(quiz_id, answer_id) {
   };
 }
 
-export function postQuiz() {
+export function postQuiz(question_text, true_answer_text, false_answer_text) {
   return function (dispatch) {
+    axios
+      .post(`http://localhost:9000/api/quiz/new`, {
+        question_text: question_text,
+        true_answer_text: true_answer_text,
+        false_answer_text: false_answer_text,
+      })
+      .then((response) => {
+        dispatch(
+          setMessage(
+            `Congrats: "${response.data.question}" is a great question!`
+          )
+        );
+        dispatch(resetForm());
+      })
+      .catch((error) => {
+        console.log(error.message);
+      });
     // On successful POST:
     // - Dispatch the correct message to the the appropriate state
     // - Dispatch the resetting of the form
