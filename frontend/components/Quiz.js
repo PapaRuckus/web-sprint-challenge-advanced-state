@@ -21,7 +21,6 @@ function Quiz(props) {
     let answer_id = selectedAnswer
     selectAnswer(null)
     postAnswer(quiz_id, answer_id)
-    fetchQuiz()
   }
 
   return (

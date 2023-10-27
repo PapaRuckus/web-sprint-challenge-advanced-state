@@ -69,6 +69,7 @@ export function postAnswer(quiz_id, answer_id) {
       })
       .then((response) => {
         dispatch(setMessage(response.data.message));
+        dispatch(fetchQuiz())
       })
       .catch((error) => {
         console.log(error.message);

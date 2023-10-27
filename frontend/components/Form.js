@@ -12,7 +12,7 @@ export function Form(props) {
 
   const onChange = (evt) => {
     const { id, value } = evt.target;
-    inputChange({ inputId: id, value });
+    inputChange({ inputId:id, value });
   };
 
   const onSubmit = (evt) => {
